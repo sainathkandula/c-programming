@@ -184,6 +184,190 @@ char str[5];
 scanf("%s", str);	
 ```
 No boundary check → buffer overflow
-Forgetting free() after malloc()	Causes memory leaks give the markup laguage for giothub
+
+
+### 9.5 Array of Strings (2D Character Array)
+
+##  Declaration
+
+```c
+char arr[5][10] = {
+    "white", "red", "green", "yellow", "blue"
+};
+```
+
+- `arr[i]` = i-th string
+- `arr[i][j]` = j-th character in i-th string
+
+---
+
+##  Memory Layout (Assuming 10 bytes per row)
+
+| Address | String   |
+| ------- | -------- |
+| 2000    | "white"  |
+| 2010    | "red"    |
+| 2020    | "green"  |
+| 2030    | "yellow" |
+| 2040    | "blue"   |
+
+
+---
+
+##  Invalid Assignments
+
+```c
+arr[0] = "white";   // ❌ Invalid
+arr[1] = arr[2];    // ❌ Invalid
+```
+
+Use `strcpy()` or `scanf()`:
+
+```c
+strcpy(arr[0], "white"); // Valid
+scanf("%s", arr[1]);     // Valid
+```
+
+---
+
+###  Example: Printing Strings
+
+```c
+#include <stdio.h>
+#define N 5
+#define LEN 10
+
+int main() {
+    char arr[N][LEN] = { "white", "red", "green", "yellow", "blue" };
+    for (int i = 0; i < N; i++) {
+        printf("String = %s\t", arr[i]);
+        printf("Address = %u\n", arr[i]);
+    }
+    return 0;
+}
+```
+
+---
+
+### 9.6 Array of Pointers to Strings
+
+####  Declaration
+
+```c
+char *arrp[] = { "white", "red", "green", "yellow", "blue" };
+```
+
+- `arrp[i]` stores address of string
+- Strings may not be stored in contiguous memory
+- Total memory: 28 bytes (strings) + 10 bytes (pointers) = **38 bytes**
+
+---
+
+##  Example: Print Strings and Addresses
+
+```c
+#include <stdio.h>
+
+int main() {
+    char *arrp[] = { "white", "red", "green", "yellow", "blue" };
+    for (int i = 0; i < 5; i++) {
+        printf("String: %s\t", arrp[i]);
+        printf("Address of string: %u\t", arrp[i]);
+        printf("Pointer stored at: %u\n", &arrp[i]);
+    }
+    return 0;
+}
+```
+
+---
+
+### Valid/Invalid Assignments
+
+| Operation                            | Validity                 |
+| ------------------------------------ | ------------------------ |
+| `arr[0] = "January";`                |  Invalid                 |
+| `arrp[0] = "January";`               |  Valid                   |
+| `strcpy(arr[1], "Feb");`             |  Valid                   |
+| `strcpy(arrp[1], "Feb");`            |  Invalid if not malloc'd |
+| `scanf("%s", arrp[2]);`              |  Invalid if not malloc'd |
+| `arrp[3] = malloc(10); strcpy(...);` |  Valid                   |
+
+
+
+
+##  Valid/Invalid Assignments With Code Examples
+
+###  `arr[0] = "January"; //  Invalid`
+
+```c
+char arr[5][10];
+arr[0] = "January"; // Error: incompatible types in assignment
+```
+
+###  `arrp[0] = "January"; //  Valid`
+
+```c
+char *arrp[5];
+arrp[0] = "January"; // Valid: arrp[0] now points to string constant "January"
+```
+
+###  `strcpy(arr[1], "Feb"); //  Valid`
+
+```c
+char arr[5][10];
+strcpy(arr[1], "Feb"); // Valid: copies "Feb" into arr[1]
+```
+
+###  `strcpy(arrp[1], "Feb"); //  Invalid if not malloc
+
+```c
+char *arrp[5];
+strcpy(arrp[1], "Feb"); // Invalid: arrp[1] is uninitialized (wild pointer)
+```
+
+###  `scanf("%s", arrp[2]); //  Invalid if not malloc'd`
+
+```c
+char *arrp[5];
+scanf("%s", arrp[2]); // Invalid: arrp[2] points to unknown memory
+```
+
+### `arrp[3] = malloc(10); strcpy(...); // Valid`
+
+```c
+#include <stdlib.h>
+#include <string.h>
+char *arrp[5];
+arrp[3] = (char *)malloc(10);
+strcpy(arrp[3], "Hello"); // Valid: memory allocated and string copied
+```
+
+---
+
+### Dynamic String Input Example
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main() {
+    char *arrp[10], str[20];
+    for (int i = 0; i < 10; i++) {
+        printf("Enter string %d: ", i + 1);
+        gets(str); // Use fgets() in practice
+        arrp[i] = (char *)malloc(strlen(str) + 1);
+        strcpy(arrp[i], str);
+    }
+
+    printf("\nEntered Strings:\n");
+    for (int i = 0; i < 10; i++) {
+        printf("%s\t", arrp[i]);
+        free(arrp[i]); // Free allocated memory
+    }
+    return 0;
+}
+```
+
 
 
