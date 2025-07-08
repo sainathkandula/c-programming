@@ -1,16 +1,16 @@
 
-#  Pointers in C – Explained Step-by-Step
+## Pointers in C – Explained Step-by-Step
 
 ---
 
-## 1. Start with the Definition
+### 1. Start with the Definition
 
  “In C, a **pointer** is a variable that stores the **memory address** of another variable.  
 
 
 ---
 
-## 2. Show the Syntax
+### 2. Show the Syntax
 
 ```c
 int a = 10;
@@ -25,7 +25,7 @@ int *ptr = &a;
 
 ---
 
-## 3. Talk About the Operators
+### 3. Talk About the Operators
 
 | Operator | Meaning                                 |
 |----------|------------------------------------------|
@@ -34,7 +34,7 @@ int *ptr = &a;
 
 ---
 
-##  4. Explain with a Memory Example
+### 4. Explain with a Memory Example
 
 ```c
 int a = 5;
@@ -55,7 +55,7 @@ printf("%d", *p);  // outputs 5
 
 ---
 
-##  5. Show a Real Code Example
+### 5. Show a Real Code Example
 
 ```c
 #include <stdio.h>
@@ -85,7 +85,7 @@ Value pointed to by p: 10
 ```
 
 ---
-#### What Is a String in C?
+#### 6. What Is a String in C?
 A string in C is an array of characters ending with a null character ''.
  C does not have a built-in string type like Python or Java.
 Example
@@ -94,7 +94,7 @@ char str[] = "hello";
 This is internally:
 ['h', 'e', 'l', 'l', 'o', '\0']
 ```
-#### What Is a String Pointer?
+#### 7. What Is a String Pointer?
 A string pointer is a pointer that points to a character array (a string).
 ```c
 char *str = "hello";
@@ -118,7 +118,7 @@ char *str = "hello";
 printf("%c\n", str[0]);      // Output: h
 printf("%c\n", *(str + 1));  // Output: e
 ```
-#### Pointer to Array of Strings
+#### 8.Pointer to Array of Strings
 Declaration
 ```c
 char *words[] = { "one", "two", "three" };
@@ -129,9 +129,11 @@ Each words[i] is a char* pointing to a string
 ```c
 printf("%s\n", words[1]);  // Output: two
 ```
-#### Memory Layout of char *words[]
+#### 9.Memory Layout of char *words[]
 words[0] ───→ "one"   → ['o', 'n', 'e', '\0']
+
 words[1] ───→ "two"   → ['t', 'w', 'o', '\0']
+
 words[2] ───→ "three" → ['t', 'h', 'r', 'e', 'e', '\0']
 #### Difference Between Static Array and Pointer
 ```c
